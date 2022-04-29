@@ -6,12 +6,8 @@ import Amplify from "aws-amplify";
 import config from "../src/aws-exports";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-
-import Link from "next/link";
-import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import { Auth } from "aws-amplify";
-import { Authenticator } from "@aws-amplify/ui-react";
 
 Amplify.configure({
   ...config,
