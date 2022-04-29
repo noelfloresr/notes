@@ -19,17 +19,14 @@ Amplify.configure({
 });
 
 const Home = (props: any) => {
-  console.log("props: ", props);
   const [user, setUser] = useState({
     username: "",
   });
 
   useEffect(() => {
     // Accessing the user session on the client
-    console.log("Auth", Auth);
     Auth.currentAuthenticatedUser()
       .then((user) => {
-        console.log("User: ", user);
         setUser(user);
       })
       .catch((err) =>
@@ -51,19 +48,6 @@ const Home = (props: any) => {
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Notes app with Amplify!</h1>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 };
