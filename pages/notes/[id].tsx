@@ -3,11 +3,11 @@ import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import Head from "next/head";
 import Header from "../../components/Header";
-import { createNote, updateNote } from "../../src/graphql/mutations";
+import { updateNote } from "../../src/graphql/mutations";
 import Amplify, { API, Storage, withSSRContext } from "aws-amplify";
 import config from "../../src/aws-exports";
 import { useRouter } from "next/router";
-import { GetServerSideProps, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import { getNote, listNotes } from "../../src/graphql/queries";
 import { GetNoteQuery, ListNotesQuery, Note } from "../../src/API";
 import Link from "next/link";
@@ -125,7 +125,7 @@ export const getStaticPaths: any = async () => {
     query: listNotes,
   })) as { data: ListNotesQuery; errors: any[] };
   const paths = todosQuery?.data?.listNotes?.items.map((todo: any) => ({
-    params: { id: todo.id },
+    params: { id: todo?.id },
   }));
   return {
     fallback: true,
