@@ -27,7 +27,7 @@ const Create: FC<ICreateNote> = ({ note }) => {
 
   useEffect(() => {
     (async () => {
-      if (note.image) {
+      if (note?.image) {
         const image = await Storage.get(note.image);
         setCurrentImage(image);
       }
@@ -46,9 +46,9 @@ const Create: FC<ICreateNote> = ({ note }) => {
 
   const formik = useFormik({
     initialValues: {
-      id: note.id,
-      name: note.name,
-      description: note.description || "",
+      id: note?.id,
+      name: note?.name,
+      description: note?.description || "",
       image: currentImage,
     },
     onSubmit: async (values) => {
@@ -121,14 +121,16 @@ export default Create;
 
 export const getStaticPaths: any = async () => {
   const SSR = withSSRContext();
-  const notesQuery = (await SSR.API.graphql({
+  const notesQuery = await SSR.API.graphql({
     query: listNotes,
-  })) as { data: ListNotesQuery; errors: any[] };
-  const paths = notesQuery?.data?.listNotes?.items
+  });
+
+  const paths = notesQuery.data.listNotes.items
     .filter((note: any) => note.id)
     .map((note: any) => ({
       params: { id: note?.id },
     }));
+
   return {
     fallback: true,
     paths,
@@ -137,6 +139,7 @@ export const getStaticPaths: any = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const SSR = withSSRContext();
+
   const response = (await SSR.API.graphql({
     query: getNote,
     variables: {
