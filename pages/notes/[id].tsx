@@ -121,12 +121,14 @@ export default Create;
 
 export const getStaticPaths: any = async () => {
   const SSR = withSSRContext();
-  const todosQuery = (await SSR.API.graphql({
+  const notesQuery = (await SSR.API.graphql({
     query: listNotes,
   })) as { data: ListNotesQuery; errors: any[] };
-  const paths = todosQuery?.data?.listNotes?.items.map((todo: any) => ({
-    params: { id: todo?.id },
-  }));
+  const paths = notesQuery?.data?.listNotes?.items
+    .filter((note: any) => note.id)
+    .map((note: any) => ({
+      params: { id: note?.id },
+    }));
   return {
     fallback: true,
     paths,
